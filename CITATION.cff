@@ -5,6 +5,15 @@ authors:
   - family-names: Berry
     given-names: Alexandria
     email: alexandria_berry@g.harvard.edu
+  - family-names: Golden
+    given-names: Christopher
+  - family-names: Upton
+    given-names: Joanna
+  - family-names: Rigden
+    given-names: Angela
+  - family-names: Huybers
+    given-names: Peter
+
 license: MIT
 
 # Fill in before publishing:
