@@ -1,0 +1,16 @@
+# Python 3.12
+
+pandas
+numpy
+scipy
+matplotlib
+seaborn
+statsmodels
+
+jupyter
+
+# Imported at the top of EVI_SVD_Mean_ctrd.ipynb but never actually called.
+# Safe to delete both lines, along with the import, unless you plan to restore
+# the MCMC fitting they were for.
+emcee
+corner

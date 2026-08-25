@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this data or code, please cite the associated paper."
+title: "MIRA Madagascar: Vegetation Indices and Household Food Consumption"
+authors:
+  - family-names: Berry
+    given-names: Alexandria
+    email: alexandria_berry@g.harvard.edu
+# Fill in before publishing:
+# version: 1.0.0
+# date-released: YYYY-MM-DD
+# doi: 10.5281/zenodo.XXXXXXX
+# preferred-citation:
+#   type: article
+#   title: ""
+#   journal: ""
+#   year:
