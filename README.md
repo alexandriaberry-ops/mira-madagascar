@@ -124,11 +124,13 @@ results in full.
 
 ## License
 
-> **Not yet chosen.** Nothing here is legally reusable until a license is added.
-> A common pairing for research repositories is MIT or BSD-3-Clause for code and
-> CC-BY-4.0 for data. Note that the boundary shapefiles in `data/boundaries/`
-> carry their own upstream terms from OCHA and BNGRC, which a repository license
-> does not override.
+- **Code** (`code/`) — MIT License, see [`LICENSE`](LICENSE)
+- **Data** (`data/`) — Creative Commons Attribution 4.0 International (CC BY 4.0),
+  see [`data/LICENSE`](data/LICENSE)
+
+The administrative boundary shapefiles in `data/boundaries/` are third-party
+data from BNGRC and OCHA, redistributed under their original terms. They are
+**not** covered by the CC BY 4.0 grant above.
 
 ## Citation
 

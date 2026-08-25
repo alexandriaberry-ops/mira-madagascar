@@ -5,6 +5,8 @@ authors:
   - family-names: Berry
     given-names: Alexandria
     email: alexandria_berry@g.harvard.edu
+license: MIT
+
 # Fill in before publishing:
 # version: 1.0.0
 # date-released: YYYY-MM-DD
