@@ -27,6 +27,7 @@ DOI added once available.
 
 ```
 data/
+  mira_cleaned_git.csv          per-household food consumption, de-identified
   commune_food_monthly.csv      mean food consumption by commune-month
   commune_monthly.csv           monthly NDVI and PC1 score by commune
   commune_lookup.csv            commune code, name, original shapefile code
@@ -108,22 +109,25 @@ code only. Run each top to bottom in a fresh kernel to regenerate results.
 
 ## Data availability and restrictions
 
-**All data in this repository is at the commune level or coarser. No
-household-level records are distributed.**
+**No direct identifiers are distributed.** The survey's household key and the
+household GPS coordinates are directly identifying in this rural setting. They
+appear in the internal extract and in no file in this repository, which is
+excluded from version control.
 
-The survey data is released as `data/commune_food_monthly.csv`: mean consumption
-per commune-month across 249 commune-months, with commune-months of fewer than
-10 households suppressed. Released cells draw on 14 to 145 households (median 82).
+The survey data is released in two forms:
 
-The underlying household-level extract contains a household key and GPS
-coordinates, which are directly identifying in this rural setting. It is not
-included here under any filename, and is excluded from version control.
+- `data/mira_cleaned_git.csv` — per-household records carrying a pseudonymous
+  `ID` (1–547) in place of the survey key, no coordinates, and commune as the
+  only geography.
+- `data/commune_food_monthly.csv` — mean consumption per commune-month across 249
+  commune-months, with commune-months of fewer than 10 households suppressed.
+  Released cells draw on 14 to 145 households (median 82).
 
-Because the decomposition runs on a household x food-item matrix,
-`EVI_SVD_Mean_ctrd.ipynb` cannot be re-run from the released aggregate.
-Its published outputs — commune-monthly PC1 scores — are provided in
-`data/commune_monthly.csv`, so `dc1_commune_models.ipynb` reproduces the
-modeling results in full.
+Commune-monthly PC1 scores are provided in `data/commune_monthly.csv`, so
+`dc1_commune_models.ipynb` reproduces the modeling results without re-running the
+decomposition. `EVI_SVD_Mean_ctrd.ipynb` still reads the internal extract by
+path; `data/mira_cleaned_git.csv` holds the same household x food-item matrix in
+de-identified form.
 
 > **To fill in:** the contact and procedure for researchers requesting access to
 > the household-level data.
