@@ -1,5 +1,25 @@
 # Data
 
+## `mira_cleaned_git.csv`
+
+Per-household food consumption records, de-identified. 22,934 rows x 36 columns,
+547 households, 2018-2022.
+
+| Column | Description |
+|---|---|
+| `ID` | Pseudonymous household identifier, 1-547. Not the survey's household key. |
+| `year`, `month`, `day` | Observation date |
+| *food columns* | Per-item consumption, same 31 items as `commune_food_monthly.csv` |
+| `commune` | Commune code (1-6) |
+
+The survey key and the household GPS coordinates present in the internal extract
+are both removed. `commune` uses the same 1-6 numbering as every other file here;
+it was checked against `commune_food_monthly.csv` commune by commune before
+release.
+
+**1,781 rows (7.8%) have blank `year`, `month` and `day`** — see the data quality
+notes below.
+
 ## `commune_food_monthly.csv`
 
 Mean household food consumption, aggregated to **commune x month**. 249 rows x 35
