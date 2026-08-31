@@ -26,32 +26,49 @@ Released cells contain between 14 and 145 households, median 82.
 The household-level extract itself contains a household key and GPS coordinates
 and is **not** part of this repository under any filename.
 
-## `evi_timeseries/c1_evi_ts.csv` ... `c8_evi_ts.csv`
+## `commune_monthly.csv`
 
-Mean Enhanced Vegetation Index per commune over time. One file per commune.
+Commune-mean NDVI paired with the first principal component score of household
+food consumption, by month. 256 rows.
 
 | Column | Description |
 |---|---|
-| `evi_time` | Observation date, serial date number |
-| `cN_mean_evi` | Commune-mean EVI for that date |
+| `commune` | Commune code (1-6) |
+| `YearMonth` | Month, `YYYY-MM` |
+| `ndvi` | Commune-mean NDVI for that month |
+| `PC1_Score` | Mean first principal component score across that commune's households |
+
+Input to `code/dc1_commune_models.ipynb`. Covers 2018-07 through 2022-02.
+Joins to `commune_food_monthly.csv` on `commune` plus month.
+
+## `commune_lookup.csv`
+
+The commune numbering used throughout this repository, with each commune's name
+and its code in the source shapefile.
+
+| Column | Description |
+|---|---|
+| `commune` | Commune code used in every released file (1-6) |
+| `commune_name` | Commune name |
+| `shapefile_code` | Position in the BNGRC/OCHA ADM4 shapefile the series were extracted from |
+| `note` | Aggregation notes, where they apply |
+
+Codes 1-6 run left to right across the study area, matching the manuscript
+figures. The shapefile codes are recorded only so the series can be traced back
+to their source; no released file uses them.
+
+## `evi_timeseries/commune_1_evi.csv` ... `commune_6_evi.csv`
+
+Mean Enhanced Vegetation Index per commune over time, at the native 16-day
+composite resolution. One file per commune, 542 observations each, spanning
+2000-02-18 to 2023-08-29.
+
+| Column | Description |
+|---|---|
+| `date` | Observation date, `YYYY-MM-DD` |
+| `evi` | Commune-mean EVI for that date |
 
 Communes 1-6 are loaded by the SVD notebook, which models communes 1-4.
-Communes 7 and 8 are included for completeness.
-
-## `commune_vecs/commune_N_vecs.csv`
-
-Per-commune monthly series pairing NDVI with the first principal component score.
-Inputs to the commune-level models.
-
-| Column | Description |
-|---|---|
-| `YearMonth` | Month, `YYYY-MM` |
-| `mean_d1_ndvi` | Commune-mean NDVI |
-| `PC1_Score` | First principal component score |
-
-Present for communes 1, 2, 5, 6, 7, 8 -- named, in order: Tranovaho, Marolinta,
-Anjampaly, Moravato, Antaritari, Imongy. No files exist for communes 3 and 4,
-so those two are absent from the OLS models.
 
 ## `boundaries/mdg_adm_bngrc_ocha_20181031_shp/`
 
@@ -64,9 +81,11 @@ original release; see the accompanying `.xml` metadata files.
 
 ## Data quality notes
 
-- **Commune codes differ between files.** `commune_food_monthly.csv` uses codes 1-6;
-  the EVI series and `commune_vecs` files use 1-8. Do not join on commune code
-  without first confirming how the two schemes correspond.
+- **Commune 4 (Anjampaly) mixes two aggregation footprints.** Shapefile communes 3
+  (Nikoly) and 4 (Betanty / Faux Cap) were collapsed into Anjampaly during survey
+  aggregation, so its food data includes their households, while its NDVI and EVI
+  series cover the Anjampaly polygon alone. Treat that commune's greenness as a
+  proxy for a slightly larger survey population than the polygon it is drawn from.
 - **1,781 rows (7.8%) have blank `year`, `month`, and `day`**, spread across 518
   of the 547 households. These are undated observations, not duplicates, though
   they collapse to identical keys if you index on household and date. Filter or
