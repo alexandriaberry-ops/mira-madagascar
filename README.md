@@ -28,8 +28,9 @@ DOI added once available.
 ```
 data/
   commune_food_monthly.csv      mean food consumption by commune-month
-  evi_timeseries/               commune-mean EVI series, c1-c8
-  commune_vecs/                 monthly NDVI + PC1 score per commune
+  commune_monthly.csv           monthly NDVI and PC1 score by commune
+  commune_lookup.csv            commune code, name, original shapefile code
+  evi_timeseries/               commune-mean EVI series, communes 1-6
   boundaries/                   Madagascar admin boundaries, ADM0-ADM4
   README.md                     full data dictionary
 code/
@@ -41,24 +42,27 @@ CITATION.cff
 
 ## Study communes
 
-| Code | Commune | EVI series | NDVI/PC1 vectors |
-|---|---|---|---|
-| 1 | Tranovaho | yes | yes |
-| 2 | Marolinta | yes | yes |
-| 3 | — | yes | no |
-| 4 | — | yes | no |
-| 5 | Anjampaly | yes | yes |
-| 6 | Moravato | yes | yes |
-| 7 | Antaritari | yes | yes |
-| 8 | Imongy | yes | yes |
+Every file in this repository uses one commune numbering, **1-6**, matching the
+manuscript figures (ordered left to right across the study area). Communes were
+originally coded by their position in the source shapefile; that correspondence
+is recorded in `data/commune_lookup.csv` and reproduced here for reference.
 
-Communes 3 and 4 appear in the EVI time series and in the SVD notebook, but have small sample sizes and actually fall into the boundaries of
-Commune 5.
+| Code | Commune | Original shapefile code |
+|---|---|---|
+| 1 | Marolinta | 2 |
+| 2 | Tranovaho | 1 |
+| 3 | Marovato | 6 |
+| 4 | Anjampaly | 5 |
+| 5 | Antaritarika | 7 |
+| 6 | Imongy | 8 |
 
->  **Note the two numbering schemes.** `commune_food_monthly.csv` uses commune codes
-> **1-6**, while the EVI series and `commune_vecs` files use **1-8**. The table
-> above describes the 1-8 scheme. Confirm how survey codes 1-6 map onto it before
-> a reader tries to join the two.
+Shapefile communes 3 (Nikoly) and 4 (Betanty / Faux Cap) were collapsed into
+Anjampaly (code 4) during survey aggregation. Their households are included in
+that commune's food data; the vegetation series for code 4 covers the Anjampaly
+polygon only.
+
+No released file uses the original codes, so `commune` joins directly across
+`commune_food_monthly.csv`, `commune_monthly.csv` and `evi_timeseries/`.
 
 ## Setup
 
@@ -78,8 +82,8 @@ paths (`../data/...`), so the working directory matters.
 ### `EVI_SVD_Mean_ctrd.ipynb` (14 cells)
 
 1. Loads the household-level survey extract (**not distributed** — see below)
-   and the commune EVI series `c1`–`c6`.
-2. Converts EVI timestamps from MATLAB serial date numbers to datetimes.
+   and the commune EVI series for communes 1–6.
+2. Parses the EVI dates, which are released as ISO calendar dates.
 3. Fills missing values in the food-item columns with the corresponding
    commune mean, then mean-centers the matrix.
 4. Runs `np.linalg.svd` on the centered matrix and projects the data onto the
@@ -90,9 +94,11 @@ paths (`../data/...`), so the working directory matters.
 
 ### `dc1_commune_models.ipynb` (10 cells)
 
-Fits **six OLS models**, one per commune, regressing `PC1_Score` on
-`mean_d1_ndvi` from the `commune_vecs` files, with confidence intervals —
-communes 1, 2, 5, 6, 7, and 8.
+Fits **six OLS models**, one per commune, regressing `PC1_Score` on `ndvi`
+from `data/commune_monthly.csv`, with confidence intervals — communes 1
+through 6. Each commune also gets a month-fixed-effects OLS and a mixed model;
+the mixed models emit convergence warnings on these short series and are not
+used for the reported results.
 
 > **To fill in:** which manuscript figure or table each notebook produces. This
 > mapping is what readers and reviewers use most; without it they have to guess.
@@ -116,8 +122,8 @@ included here under any filename, and is excluded from version control.
 Because the decomposition runs on a household x food-item matrix,
 `EVI_SVD_Mean_ctrd.ipynb` cannot be re-run from the released aggregate.
 Its published outputs — commune-monthly PC1 scores — are provided in
-`data/commune_vecs/`, so `dc1_commune_models.ipynb` reproduces the modeling
-results in full.
+`data/commune_monthly.csv`, so `dc1_commune_models.ipynb` reproduces the
+modeling results in full.
 
 > **To fill in:** the contact and procedure for researchers requesting access to
 > the household-level data.
