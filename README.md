@@ -36,10 +36,12 @@ data/
   boundaries/                   Madagascar admin boundaries, ADM0-ADM4
   README.md                     full data dictionary
 code/
-  create_commune_svd_vecs.ipynb SVD of consumption data; writes commune PC1 vectors
-  EVI_SVD_Mean_ctrd.ipynb       SVD of consumption data; DC1 vs. EVI
-  svd_ndvi_commune_mean_centering.ipynb  DC1 vs. NDVI; correlations and panel figure
-  dc1_commune_models.ipynb      per-commune OLS models, NDVI vs. PC1
+  evi/
+    EVI_SVD_Mean_ctrd.ipynb     SVD of consumption data; DC1 vs. EVI
+  ndvi/
+    create_commune_svd_vecs.ipynb          SVD of consumption data; writes commune PC1 vectors
+    svd_ndvi_commune_mean_centering.ipynb  DC1 vs. NDVI; correlations and panel figure
+    dc1_commune_models.ipynb               per-commune OLS models, NDVI vs. PC1
 requirements.txt
 CITATION.cff
 ```
@@ -80,11 +82,15 @@ Developed against Python 3.12.
 
 ## Reproducing the analysis
 
-Run the notebooks **from inside `code/`** — they read data through relative
-paths (`../data/...`), so the working directory matters. Every notebook runs
-end to end on the data released here.
+Run each notebook **from the directory it lives in** (`code/evi/` or
+`code/ndvi/`) — they read data through relative paths (`../../data/...`), so
+the working directory matters. Every notebook runs end to end on the data
+released here.
 
-### `create_commune_svd_vecs.ipynb` (8 cells)
+`create_commune_svd_vecs.ipynb` sits under `code/ndvi/` but is index-agnostic:
+the DC1 scores it produces are the same ones the EVI notebook regresses on.
+
+### `ndvi/create_commune_svd_vecs.ipynb` (8 cells)
 
 1. Loads `data/mira_cleaned_git.csv` and `data/commune_lookup.csv`.
 2. Fills missing food-item values with the item mean and mean-centers the
@@ -97,7 +103,7 @@ end to end on the data released here.
    `PC1_Score` column released in `data/commune_monthly.csv` (they agree to
    3.6e-13).
 
-### `EVI_SVD_Mean_ctrd.ipynb` (20 cells)
+### `evi/EVI_SVD_Mean_ctrd.ipynb` (20 cells)
 
 1. Loads the de-identified household records in `data/mira_cleaned_git.csv`
    and the commune EVI series for communes 1–6.
@@ -112,7 +118,7 @@ end to end on the data released here.
 6. Collects the slopes, p-values and R² of both specifications into one
    summary table.
 
-### `svd_ndvi_commune_mean_centering.ipynb` (7 cells)
+### `ndvi/svd_ndvi_commune_mean_centering.ipynb` (7 cells)
 
 1. Loads the per-commune NDVI series in `data/ndvi_timeseries/` and joins them
    to the DC1 scores in `data/commune_monthly.csv`.
@@ -122,7 +128,7 @@ end to end on the data released here.
    the 3x2 panel figure `ndvi_vs_dc1_3x2_panel.pdf` with panels (a)–(f) in
    commune order 1–6.
 
-### `dc1_commune_models.ipynb` (10 cells)
+### `ndvi/dc1_commune_models.ipynb` (10 cells)
 
 Fits **six OLS models**, one per commune, regressing `PC1_Score` on `ndvi`
 from `data/commune_monthly.csv`, with confidence intervals — communes 1

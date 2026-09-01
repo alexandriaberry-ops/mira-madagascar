@@ -58,9 +58,9 @@ food consumption, by month. 256 rows.
 | `ndvi` | Commune-mean NDVI for that month |
 | `PC1_Score` | Mean first principal component score across that commune's households |
 
-Input to `code/dc1_commune_models.ipynb` and
-`code/svd_ndvi_commune_mean_centering.ipynb`. Covers 2018-07 through 2022-02.
-The `PC1_Score` column is reproduced by `code/create_commune_svd_vecs.ipynb`.
+Input to `code/ndvi/dc1_commune_models.ipynb` and
+`code/ndvi/svd_ndvi_commune_mean_centering.ipynb`. Covers 2018-07 through 2022-02.
+The `PC1_Score` column is reproduced by `code/ndvi/create_commune_svd_vecs.ipynb`.
 Joins to `commune_food_monthly.csv` on `commune` plus month.
 
 ## `commune_lookup.csv`
@@ -103,7 +103,7 @@ commune, 41-43 observations each, spanning 2018-07 through 2022-02.
 | `ndvi` | Commune-mean NDVI for that month |
 
 The same values as the `ndvi` column of `commune_monthly.csv`, split by commune
-for `code/svd_ndvi_commune_mean_centering.ipynb`. Note the monthly resolution,
+for `code/ndvi/svd_ndvi_commune_mean_centering.ipynb`. Note the monthly resolution,
 unlike the 16-day EVI composites above.
 
 ## `boundaries/mdg_adm_bngrc_ocha_20181031_shp/`
