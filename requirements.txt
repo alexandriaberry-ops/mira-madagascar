@@ -7,6 +7,9 @@ matplotlib
 seaborn
 statsmodels
 
+scikit-learn
+cmcrameri
+
 jupyter
 
 # Imported at the top of EVI_SVD_Mean_ctrd.ipynb but never actually called.

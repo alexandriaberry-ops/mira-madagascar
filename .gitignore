@@ -28,4 +28,5 @@ data/raw_private/
 # Notebook outputs
 code/**/*.pdf
 code/**/*.jpg
+!code/figure_panels/*.jpg
 data/commune_pc1_monthly.csv

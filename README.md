@@ -36,6 +36,10 @@ data/
   boundaries/                   Madagascar admin boundaries, ADM0-ADM4
   README.md                     full data dictionary
 code/
+  github_plots_formatted_for_paper.ipynb   per-commune food figures for the manuscript
+  figure_panels/                 map and NDVI images stitched into the manuscript figure
+  matlab/
+    github_format_ndvi.mlx       extracts the commune NDVI series from the satellite record
   evi/
     EVI_SVD_Mean_ctrd.ipynb     SVD of consumption data; DC1 vs. EVI
   ndvi/
@@ -82,7 +86,7 @@ Developed against Python 3.12.
 
 ## Reproducing the analysis
 
-Run each notebook **from the directory it lives in** (`code/evi/` or
+Run each notebook **from the directory it lives in** (`code/`, `code/evi/` or
 `code/ndvi/`) — they read data through relative paths (`../../data/...`), so
 the working directory matters. Every notebook runs end to end on the data
 released here.
@@ -141,6 +145,15 @@ used for the reported results.
 
 Notebook outputs are stripped from version control, so committed notebooks show
 code only. Run each top to bottom in a fresh kernel to regenerate results.
+
+### `matlab/github_format_ndvi.mlx`
+
+The MATLAB source of `data/ndvi_timeseries/`: it reads the 250 m 16-day NDVI
+record for southern Madagascar, averages it within each commune polygon, and
+writes the per-commune series. Included as the record of how the released NDVI
+was produced; it needs the satellite archive and the `m_map` and `crameri`
+toolboxes, none of which are distributed here. The commune numbers in its
+figure labels are the same 1-6 mapping used throughout this repository.
 
 ## Data availability and restrictions
 
