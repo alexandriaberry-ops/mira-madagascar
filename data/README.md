@@ -92,6 +92,20 @@ composite resolution. One file per commune, 542 observations each, spanning
 
 Communes 1-6 are loaded and modeled by the SVD notebook.
 
+## `ndvi_timeseries/commune_1_ndvi.csv` ... `commune_6_ndvi.csv`
+
+Mean Normalized Difference Vegetation Index per commune, monthly. One file per
+commune, 41-43 observations each, spanning 2018-07 through 2022-02.
+
+| Column | Description |
+|---|---|
+| `YearMonth` | Month, `YYYY-MM` |
+| `ndvi` | Commune-mean NDVI for that month |
+
+The same values as the `ndvi` column of `commune_monthly.csv`, split by commune
+for `code/svd_ndvi_commune_mean_centering.ipynb`. Note the monthly resolution,
+unlike the 16-day EVI composites above.
+
 ## `boundaries/mdg_adm_bngrc_ocha_20181031_shp/`
 
 Madagascar administrative boundaries, ADM0 through ADM4, published by BNGRC and

@@ -32,6 +32,7 @@ data/
   commune_monthly.csv           monthly NDVI and PC1 score by commune
   commune_lookup.csv            commune code, name, original shapefile code
   evi_timeseries/               commune-mean EVI series, communes 1-6
+  ndvi_timeseries/              commune-mean NDVI series, communes 1-6
   boundaries/                   Madagascar admin boundaries, ADM0-ADM4
   README.md                     full data dictionary
 code/
@@ -113,7 +114,8 @@ end to end on the data released here.
 
 ### `svd_ndvi_commune_mean_centering.ipynb` (7 cells)
 
-1. Loads `data/commune_monthly.csv` and `data/commune_lookup.csv`.
+1. Loads the per-commune NDVI series in `data/ndvi_timeseries/` and joins them
+   to the DC1 scores in `data/commune_monthly.csv`.
 2. Reports the Pearson correlation between NDVI and DC1 for each commune
    (r = 0.567 to 0.758 across communes 1–6).
 3. Plots NDVI against DC1 on twin axes, one figure per commune, and assembles
