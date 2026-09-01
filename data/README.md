@@ -94,17 +94,22 @@ Communes 1-6 are loaded and modeled by the SVD notebook.
 
 ## `ndvi_timeseries/commune_1_ndvi.csv` ... `commune_6_ndvi.csv`
 
-Mean Normalized Difference Vegetation Index per commune, monthly. One file per
-commune, 41-43 observations each, spanning 2018-07 through 2022-02.
+Mean Normalized Difference Vegetation Index per commune, at the native 16-day
+composite resolution. One file per commune, 507 observations each, spanning
+2000-02-18 to 2022-02-18.
 
 | Column | Description |
 |---|---|
-| `YearMonth` | Month, `YYYY-MM` |
-| `ndvi` | Commune-mean NDVI for that month |
+| `date` | Observation date, `YYYY-MM-DD` |
+| `ndvi` | Commune-mean NDVI for that date |
 
-The same values as the `ndvi` column of `commune_monthly.csv`, split by commune
-for `code/ndvi/svd_ndvi_commune_mean_centering.ipynb`. Note the monthly resolution,
-unlike the 16-day EVI composites above.
+Extracted per commune polygon from the satellite record. `code/ndvi/svd_ndvi_commune_mean_centering.ipynb`
+averages them to calendar months before pairing them with DC1.
+
+These are the series the manuscript figures are drawn from. The monthly `ndvi`
+column of `commune_monthly.csv` was aggregated separately and differs slightly
+(r = 0.998 per commune, maximum absolute difference 0.025); `dc1_commune_models.ipynb`
+still reads that column.
 
 ## `boundaries/mdg_adm_bngrc_ocha_20181031_shp/`
 

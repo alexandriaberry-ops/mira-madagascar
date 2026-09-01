@@ -123,7 +123,7 @@ the DC1 scores it produces are the same ones the EVI notebook regresses on.
 1. Loads the per-commune NDVI series in `data/ndvi_timeseries/` and joins them
    to the DC1 scores in `data/commune_monthly.csv`.
 2. Reports the Pearson correlation between NDVI and DC1 for each commune
-   (r = 0.567 to 0.758 across communes 1–6).
+   (r = 0.577 to 0.765 across communes 1–6).
 3. Plots NDVI against DC1 on twin axes, one figure per commune, and assembles
    the 3x2 panel figure `ndvi_vs_dc1_3x2_panel.pdf` with panels (a)–(f) in
    commune order 1–6.
