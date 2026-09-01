@@ -55,7 +55,7 @@ food consumption, by month. 256 rows.
 |---|---|
 | `commune` | Commune code (1-6) |
 | `YearMonth` | Month, `YYYY-MM` |
-| `ndvi` | Commune-mean NDVI for that month |
+| `ndvi` | Commune-mean NDVI for that month, averaged from `ndvi_timeseries/` |
 | `PC1_Score` | Mean first principal component score across that commune's households |
 
 Input to `code/ndvi/dc1_commune_models.ipynb` and
@@ -106,10 +106,8 @@ composite resolution. One file per commune, 507 observations each, spanning
 Extracted per commune polygon from the satellite record. `code/ndvi/svd_ndvi_commune_mean_centering.ipynb`
 averages them to calendar months before pairing them with DC1.
 
-These are the series the manuscript figures are drawn from. The monthly `ndvi`
-column of `commune_monthly.csv` was aggregated separately and differs slightly
-(r = 0.998 per commune, maximum absolute difference 0.025); `dc1_commune_models.ipynb`
-still reads that column.
+These are the series the manuscript figures are drawn from, and the source of
+the monthly `ndvi` column in `commune_monthly.csv`.
 
 ## `boundaries/mdg_adm_bngrc_ocha_20181031_shp/`
 
