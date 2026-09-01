@@ -24,3 +24,8 @@ env/
 data/raw_private/
 *_coordinates.csv
 *_private.csv
+
+# Notebook outputs
+code/*.pdf
+code/*.jpg
+data/commune_pc1_monthly.csv

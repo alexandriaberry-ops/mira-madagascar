@@ -35,7 +35,9 @@ data/
   boundaries/                   Madagascar admin boundaries, ADM0-ADM4
   README.md                     full data dictionary
 code/
+  create_commune_svd_vecs.ipynb SVD of consumption data; writes commune PC1 vectors
   EVI_SVD_Mean_ctrd.ipynb       SVD of consumption data; DC1 vs. EVI
+  svd_ndvi_commune_mean_centering.ipynb  DC1 vs. NDVI; correlations and panel figure
   dc1_commune_models.ipynb      per-commune OLS models, NDVI vs. PC1
 requirements.txt
 CITATION.cff
@@ -77,12 +79,26 @@ Developed against Python 3.12.
 
 ## Reproducing the analysis
 
-Run both notebooks **from inside `code/`** — they read data through relative
-paths (`../data/...`), so the working directory matters.
+Run the notebooks **from inside `code/`** — they read data through relative
+paths (`../data/...`), so the working directory matters. Every notebook runs
+end to end on the data released here.
 
-### `EVI_SVD_Mean_ctrd.ipynb` (14 cells)
+### `create_commune_svd_vecs.ipynb` (8 cells)
 
-1. Loads the household-level survey extract (**not distributed** — see below)
+1. Loads `data/mira_cleaned_git.csv` and `data/commune_lookup.csv`.
+2. Fills missing food-item values with the item mean and mean-centers the
+   household x food-item matrix across all households.
+3. Runs `np.linalg.svd`, reports the variance explained by the first three
+   components, and plots their loadings.
+4. Projects the leading component onto every household record, drops the
+   undated rows, and averages to commune-month.
+5. Writes `data/commune_pc1_monthly.csv` and checks it against the
+   `PC1_Score` column released in `data/commune_monthly.csv` (they agree to
+   3.6e-13).
+
+### `EVI_SVD_Mean_ctrd.ipynb` (20 cells)
+
+1. Loads the de-identified household records in `data/mira_cleaned_git.csv`
    and the commune EVI series for communes 1–6.
 2. Parses the EVI dates, which are released as ISO calendar dates.
 3. Fills missing values in the food-item columns with the corresponding
@@ -91,7 +107,18 @@ paths (`../data/...`), so the working directory matters.
    first right singular vector, producing the score `dc1` and the share of
    variance it explains.
 5. Aggregates `dc1` to monthly commune means and plots it against commune EVI,
-   with OLS fits, for **communes 1–4**.
+   with OLS fits and month-fixed-effects models, for **communes 1–6**.
+6. Collects the slopes, p-values and R² of both specifications into one
+   summary table.
+
+### `svd_ndvi_commune_mean_centering.ipynb` (7 cells)
+
+1. Loads `data/commune_monthly.csv` and `data/commune_lookup.csv`.
+2. Reports the Pearson correlation between NDVI and DC1 for each commune
+   (r = 0.567 to 0.758 across communes 1–6).
+3. Plots NDVI against DC1 on twin axes, one figure per commune, and assembles
+   the 3x2 panel figure `ndvi_vs_dc1_3x2_panel.pdf` with panels (a)–(f) in
+   commune order 1–6.
 
 ### `dc1_commune_models.ipynb` (10 cells)
 
@@ -124,10 +151,12 @@ The survey data is released in two forms:
   Released cells draw on 14 to 145 households (median 82).
 
 Commune-monthly PC1 scores are provided in `data/commune_monthly.csv`, so
-`dc1_commune_models.ipynb` reproduces the modeling results without re-running the
-decomposition. `EVI_SVD_Mean_ctrd.ipynb` still reads the internal extract by
-path; `data/mira_cleaned_git.csv` holds the same household x food-item matrix in
-de-identified form.
+`dc1_commune_models.ipynb` and `svd_ndvi_commune_mean_centering.ipynb`
+reproduce the modeling results and figures without re-running the
+decomposition. `create_commune_svd_vecs.ipynb` and `EVI_SVD_Mean_ctrd.ipynb`
+both run the decomposition itself on `data/mira_cleaned_git.csv`, which holds
+the same household x food-item matrix as the internal extract in de-identified
+form.
 
 > **To fill in:** the contact and procedure for researchers requesting access to
 > the household-level data.
