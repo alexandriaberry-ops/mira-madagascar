@@ -55,13 +55,46 @@ food consumption, by month. 256 rows.
 |---|---|
 | `commune` | Commune code (1-6) |
 | `YearMonth` | Month, `YYYY-MM` |
-| `ndvi` | Commune-mean NDVI for that month, averaged from `ndvi_timeseries/` |
+| `ndvi` | Commune-mean NDVI for that month, weighted by household locations (see Methods) |
 | `PC1_Score` | Mean first principal component score across that commune's households |
 
 Input to `code/ndvi/dc1_commune_models.ipynb` and
 `code/ndvi/svd_ndvi_commune_mean_centering.ipynb`. Covers 2018-07 through 2022-02.
 The `PC1_Score` column is reproduced by `code/ndvi/create_commune_svd_vecs.ipynb`.
 Joins to `commune_food_monthly.csv` on `commune` plus month.
+
+## `food_security_monthly.csv`
+
+The four commonly used household food security indices, averaged to
+**commune x month**. 247 rows.
+
+| Column | Description |
+|---|---|
+| `commune` | Commune code (1-6) |
+| `YearMonth` | Month, `YYYY-MM` |
+| `n_households` | Households contributing to the cell |
+| `FCS` | Food Consumption Score |
+| `HDDS_24hr` | Household Dietary Diversity Score, 24-hour recall |
+| `HHS` | Household Hunger Scale |
+| `rCSI1` | Reduced Coping Strategies Index |
+
+Derived from the internal household-level extract: households answering fewer
+than 70% of survey waves were dropped, records with no date were dropped, and
+the remaining records were averaged within each commune-month. Input to
+`code/ndvi/food_security_indices_v_ndvi.ipynb`, which reproduces the reported
+correlations against the `ndvi` column of `commune_monthly.csv`.
+
+**Four cells rest on fewer than 10 households** -- commune 5 in 2018-07 (n = 2),
+2018-12 (n = 4) and 2021-04 (n = 7), and commune 6 in 2018-07 (n = 3). Unlike
+`commune_food_monthly.csv`, which suppresses cells below that threshold, these
+are released so that the reported correlations reproduce exactly; the
+`n_households` column identifies them. A mean over very few households
+approaches individual disclosure, and those four cells should be treated
+accordingly. All other cells draw on 14 to 145 households.
+
+The Household Hunger Scale is reported as zero by most households in most
+months, so its commune means are zero for long stretches, particularly from
+2021 onward.
 
 ## `commune_lookup.csv`
 
@@ -106,8 +139,12 @@ composite resolution. One file per commune, 507 observations each, spanning
 Extracted per commune polygon from the satellite record. `code/ndvi/svd_ndvi_commune_mean_centering.ipynb`
 averages them to calendar months before pairing them with DC1.
 
-These are the series the manuscript figures are drawn from, and the source of
-the monthly `ndvi` column in `commune_monthly.csv`.
+These are the unweighted polygon means for each commune. They are **not** the
+same quantity as the `ndvi` column of `commune_monthly.csv`, which is the
+household-location-weighted commune average described in the Methods and is the
+series all reported models and correlations use. The two agree closely
+(*r* = 0.998 per commune, maximum absolute difference 0.025) but are not
+interchangeable; use `commune_monthly.csv` to reproduce the tables.
 
 ## `boundaries/mdg_adm_bngrc_ocha_20181031_shp/`
 
