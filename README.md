@@ -30,6 +30,7 @@ data/
   mira_cleaned_git.csv          per-household food consumption, de-identified
   commune_food_monthly.csv      mean food consumption by commune-month
   commune_monthly.csv           monthly NDVI and PC1 score by commune
+  food_security_monthly.csv     monthly FCS, HDDS, HHS and rCSI by commune
   commune_lookup.csv            commune code, name, original shapefile code
   evi_timeseries/               commune-mean EVI series, communes 1-6
   ndvi_timeseries/              commune-mean NDVI series, communes 1-6
@@ -46,6 +47,7 @@ code/
     create_commune_svd_vecs.ipynb          SVD of consumption data; writes commune PC1 vectors
     svd_ndvi_commune_mean_centering.ipynb  DC1 vs. NDVI; correlations and panel figure
     dc1_commune_models.ipynb               per-commune OLS models, NDVI vs. PC1
+    food_security_indices_v_ndvi.ipynb     NDVI vs. the four food security indices
 requirements.txt
 CITATION.cff
 ```
@@ -131,6 +133,14 @@ the DC1 scores it produces are the same ones the EVI notebook regresses on.
 3. Plots NDVI against DC1 on twin axes, one figure per commune, and assembles
    the 3x2 panel figure `ndvi_vs_dc1_3x2_panel.pdf` with panels (a)–(f) in
    commune order 1–6.
+
+### `ndvi/food_security_indices_v_ndvi.ipynb` (5 cells)
+
+1. Loads `data/food_security_monthly.csv` and the `ndvi` column of
+   `data/commune_monthly.csv`.
+2. Reports Pearson correlations between NDVI and each of the four indices, by
+   commune, and writes them to `ndvi_food_security_correlations.csv`.
+3. Plots each index against NDVI on twin axes, one 2x2 panel figure per commune.
 
 ### `ndvi/dc1_commune_models.ipynb` (10 cells)
 
